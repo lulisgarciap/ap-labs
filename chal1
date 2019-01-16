@@ -1,0 +1,22 @@
+def subs(str):
+ string = str
+ arr=[]
+ ch = ''
+ for i in range(len(string)):
+  ch= ch+string[i]
+  if i<len(string)-1:
+   if string[i+1] in ch:
+    arr.append(ch)
+    ch=''
+  else:
+    arr.append(ch)
+ max=0 
+ for sub in arr:
+  if len(sub)>max:
+   max= len(sub)
+   answer= sub
+ print answer, len(answer)
+
+
+subs('abcabcbb')
+subs('pwwkew')
