@@ -1,4 +1,4 @@
-gcc -c str-main.c -o str-main.o
+gcc -c main.c -o main.o
 
 gcc -c strlib.c -o strlib.o
 
