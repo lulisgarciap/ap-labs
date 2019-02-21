@@ -18,7 +18,7 @@ void file(char *ifp, char *ofp){
 		buf = (char*) malloc(size_buf);
 		int c = read(fi, buf, size_buf);
 		printf("count: %d", c);
-		printf("%s", buf);
+		//printf("%s", buf);
 	}
 	close(fi);
 	fo = open(ofp, O_WRONLY| O_CREAT | O_TRUNC | O_APPEND, S_IRUSR | S_IWUSR) ;
