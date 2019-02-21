@@ -1,4 +1,5 @@
 gcc broadcaster.c -o broadcaster.o
+
 ./broadcaster.o message to send
 
 Putty config:
