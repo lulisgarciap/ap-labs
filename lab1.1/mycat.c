@@ -17,7 +17,11 @@ void file(char *ifp, char *ofp){
 	}else{
 		buf = (char*) malloc(size_buf);
 		int c = read(fi, buf, size_buf);
+<<<<<<< HEAD
 		//printf("count: %d", c);
+=======
+		printf("count: %d", c);
+>>>>>>> 6ebd46504b17f53c84f4bdae3fc62db903043f41
 		//printf("%s", buf);
 	}
 	close(fi);
