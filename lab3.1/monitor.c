@@ -6,7 +6,7 @@
 #include <ftw.h>
 #include <string.h>
 #include <stdint.h>
-//#include "logger.h"
+
 
 #define EVENT_SIZE  (sizeof(struct inotify_event))
 #define BUF_LEN     (1024 * (EVENT_SIZE + 16))
@@ -18,9 +18,18 @@ static void             /* Display information from inotify_event structure */
 displayInotifyEvent(struct inotify_event *i)
 {
     if (i->len > 0) infof("        directory %s", i->name);
-    if (i->mask & IN_CREATE)        infof(" was created ");
-    if (i->mask & IN_DELETE)        infof(" was deleted");
-    if (i->mask & IN_MOVED_FROM)      infof(" was renamed ");
+    if (i->mask & IN_CREATE){
+	    infof(" was created ");
+	    if (event->mask == 1073742080) getTree(argv[1]);
+    }
+    if (i->mask & IN_DELETE){
+	    infof(" was deleted");
+	    if (event->mask == 1073742336) getTree(argv[1]);
+    }
+    if (i->mask & IN_MOVED_FROM){
+	    infof(" was renamed ");
+	    if (event->mask == 1073741888) getTree(argv[1]);
+    }
     printf("\n");
 }
     
