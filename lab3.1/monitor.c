@@ -11,28 +11,30 @@
 #define EVENT_SIZE  (sizeof(struct inotify_event))
 #define BUF_LEN     (1024 * (EVENT_SIZE + 16))
 #define _XOPEN_SOURCE 500
-
+char *directory;
 int wd;
 int fd;
-static void             /* Display information from inotify_event structure */
-displayInotifyEvent(struct inotify_event *i)
-{
+static void getTree(char dir[]);
+static void displayInotifyEvent(struct inotify_event *i);
+
+
+static void displayInotifyEvent(struct inotify_event *i){
     if (i->len > 0) infof("        directory %s", i->name);
     if (i->mask & IN_CREATE){
 	    infof(" was created ");
-	    if (event->mask == 1073742080) getTree(argv[1]);
+	    if (i->mask == 1073742080) getTree(directory);
     }
     if (i->mask & IN_DELETE){
 	    infof(" was deleted");
-	    if (event->mask == 1073742336) getTree(argv[1]);
+	    if (i->mask == 1073742336) getTree(directory);
     }
     if (i->mask & IN_MOVED_FROM){
 	    infof(" was renamed ");
-	    if (event->mask == 1073741888) getTree(argv[1]);
+	    if (i->mask == 1073741888) getTree(directory);
     }
     printf("\n");
 }
-    
+
 
 
 static int addWatchers(const char *fpath, const struct stat *sb, int tflag, struct FTW *ftwbuf){
@@ -44,7 +46,6 @@ static int addWatchers(const char *fpath, const struct stat *sb, int tflag, stru
 
 static void getTree(char dir[]){
     int flags = 0;
-
    if (nftw(dir, addWatchers, 20, flags)
             == -1) {
         errorf("nftw");
@@ -55,7 +56,7 @@ static void getTree(char dir[]){
 int main(int argc, char **argv) {
     int length, i;
     char buffer[BUF_LEN];
-
+    directory =argv[1];
     if(argc < 2){
         errorf("Incorrect usage, do: ./main [directory]\n");
         return 0;
@@ -69,10 +70,9 @@ int main(int argc, char **argv) {
         errorf("inotify_init");
     }
 
-    getTree(argv[1]);
+    getTree(directory);
 
     for (;;) {
-        //i = 0;
         length = read(fd, buffer, BUF_LEN);
 
         if (length < 0) {
@@ -80,7 +80,6 @@ int main(int argc, char **argv) {
         }
 
 	for (i = 0; i < length;) {
-        //while (i < length) {
             struct inotify_event *event =
                 (struct inotify_event *) &buffer;
             displayInotifyEvent(event);
